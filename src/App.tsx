@@ -78,35 +78,35 @@ const App = ({ apiKey }) => {
 
   const processChartData = (rawData) => {
     console.log('Raw data before processing:', rawData);
-    
+
     // Get all unique blockchains first
     const blockchains = Array.from(new Set(rawData.map(item => item.blockchain)));
     console.log('Unique blockchains:', blockchains);
 
     // Group by month
     const grouped = _.groupBy(rawData, 'month');
-    
+
     // Transform the data
     const transformedData = Object.entries(grouped).map(([month, items]) => {
       const monthData = { month };
-      
+
       // Initialize all blockchains with 0
       blockchains.forEach(chain => {
         monthData[chain] = 0;
       });
-      
+
       // Fill in actual values
       items.forEach(({ blockchain, gas_fees }) => {
         monthData[blockchain] = gas_fees;
       });
-      
+
       return monthData;
     });
 
     // Sort chronologically
     const sortedData = transformedData.sort((a, b) => new Date(a.month) - new Date(b.month));
     console.log('Processed data:', sortedData);
-    
+
     return sortedData;
   };
 
@@ -197,28 +197,28 @@ const App = ({ apiKey }) => {
 
   return (
     <div style={containerStyle}>
-      <h2 style={{ 
-        marginBottom: '50px', 
+      <h2 style={{
+        marginBottom: '50px',
         fontSize: '24px',
         padding: '20px'
-      }}>Blockchain Gas Fees</h2>
-      
+      }}>Blockchain Gas Fees Chart</h2>
+
       <div style={{ width: '100%', height: 'calc(100vh - 80px)' }}>
         <ResponsiveContainer>
-          <BarChart 
+          <BarChart
             data={data}
             margin={{ top: 20, right: 30, left: 50, bottom: 50 }}
             stackOffset="normal"
           >
-            <XAxis 
-              dataKey="month" 
+            <XAxis
+              dataKey="month"
               tickFormatter={(value) => {
                 const date = new Date(value);
                 return `${date.toLocaleString('default', { month: 'short' })} ${date.getFullYear().toString().slice(2)}`;
               }}
               stroke="#ffffff"
             />
-            <YAxis 
+            <YAxis
               tickFormatter={(value) => {
                 if (value >= 1000000000) return `${(value / 1000000000).toFixed(1)}B`;
                 if (value >= 1000000) return `${(value / 1000000).toFixed(1)}M`;
@@ -227,7 +227,7 @@ const App = ({ apiKey }) => {
               }}
               stroke="#ffffff"
             />
-            <Tooltip 
+            <Tooltip
               contentStyle={{
                 backgroundColor: '#2a2a2a',
                 border: 'none',
@@ -235,7 +235,7 @@ const App = ({ apiKey }) => {
               }}
               formatter={(value) => value.toLocaleString()}
             />
-            <Legend 
+            <Legend
               wrapperStyle={{
                 color: '#ffffff'
               }}
@@ -243,7 +243,7 @@ const App = ({ apiKey }) => {
             {Object.keys(data[0])
               .filter(key => key !== 'month')
               .map((blockchain) => (
-                <Bar 
+                <Bar
                   key={blockchain}
                   dataKey={blockchain}
                   name={blockchain.replace('_', ' ')}

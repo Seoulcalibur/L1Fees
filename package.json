@@ -1,5 +1,6 @@
 {
-  "name": "l1data",
+  "homepage": "/",
+  "name": "L1Fees",
   "private": true,
   "version": "0.0.0",
   "type": "module",
