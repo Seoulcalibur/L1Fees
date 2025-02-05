@@ -133,7 +133,7 @@ const App = ({ apiKey }) => {
         });
 
         const resultsData = await resultsResponse.json();
-        console.log('Results data:', resultsData);
+        //console.log('Results data:', resultsData);
         const processedData = processChartData(resultsData.result?.rows || []);
         setData(processedData);
         setLoading(false);
@@ -193,7 +193,7 @@ const App = ({ apiKey }) => {
   }
 
   // Log available keys for debugging
-  console.log('Available data keys:', Object.keys(data[0]));
+  //console.log('Available data keys:', Object.keys(data[0]));
 
   return (
     <div style={containerStyle}>
@@ -203,7 +203,7 @@ const App = ({ apiKey }) => {
         padding: '20px'
       }}>Blockchain Gas Fees Chart</h2>
 
-      <div style={{ width: '100%', height: 'calc(100vh - 80px)' }}>
+      <div style={{ width: '100%', height: 'calc(100vh - 240px)' }}>
         <ResponsiveContainer>
           <BarChart
             data={data}
